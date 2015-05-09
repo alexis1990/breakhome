@@ -1,0 +1,16 @@
+<ion-view view-title="Playlists">
+  <ion-content>
+	<ul class="list" ng-repeat="choice in choices">
+		<li class="item item-checkbox" ng-repeat="(key, val) in choice">
+		    <table style="width:100%">
+			  <tr>
+			    <td>{{key}}</td>
+			  </tr>
+			  <tr>
+			    <td>{{val}}</td>
+			  </tr>
+			</table>
+		</li>
+	</ul>
+  </ion-content>
+</ion-view>

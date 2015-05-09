@@ -1,0 +1,13 @@
+[{
+    "Name": "Soap",
+    "Price": "25",
+    "Quantity": "10"
+}, {
+    "Name": "Bag",
+    "Price": "100",
+    "Quantity": "15"
+}, {
+    "Name": "Pen",
+    "Price": "15",
+    "Quantity": "13"
+}]
