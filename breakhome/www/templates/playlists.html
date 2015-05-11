@@ -1,16 +1,26 @@
 <ion-view view-title="Playlists">
-  <ion-content>
-	<ul class="list" ng-repeat="choice in choices">
-		<li class="item item-checkbox" ng-repeat="(key, val) in choice">
-		    <table style="width:100%">
-			  <tr>
-			    <td>{{key}}</td>
-			  </tr>
-			  <tr>
-			    <td>{{val}}</td>
-			  </tr>
-			</table>
-		</li>
-	</ul>
-  </ion-content>
+<ion-content>
+<ul class="list" ng-repeat="choice in choices">
+	<li class="item item-checkbox" ng-repeat="(key, val) in choice">
+		<table style="width:100%">
+			<tr>
+				<td>{{key}}</td>
+			</tr>
+			<tr>
+				<td>{{val}}</td>
+			</tr>
+		</table>
+	</li>
+</ul>
+<div ng-repeat="choice in choices">
+	<div ng-repeat="(key, val) in choice">
+		<h2>
+			{{key}}
+		</h2>
+		<div ng-repeat="(k, v) in val">
+			{{v.Name}} : {{v.Price}}€
+		</div>
+	</div>
+</div>
+</ion-content>
 </ion-view>
