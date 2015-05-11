@@ -48,10 +48,23 @@ angular.module('starter.controllers', [])
 
     });
 
-    $scope.command = function(data){
-        console.log(data);
-    }
-
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {});
+.controller('RegisterCtrl', function($scope, $http) {
+
+    $scope.register = function() {
+
+        $http.post('http://localhost:8080/api/register', {
+            username: $scope.username,
+            password: $scope.password
+        })
+            .success(function(data) {
+                $scope.myform = {};
+                console.log(data);
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+})
+    .controller('PlaylistCtrl', function($scope, $stateParams) {});

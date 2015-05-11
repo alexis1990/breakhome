@@ -1,6 +1,5 @@
 <ion-view view-title="Playlists">
 <ion-content>
-
 <div ng-repeat="choice in choices">
 	<div ng-repeat="(key, val) in choice">
 		<h2>
@@ -8,19 +7,16 @@
 		</h2>
 		<div ng-repeat="(k, v) in val">
 			<ul class="list">
-
 				<li class="item item-checkbox">
 					<label class="checkbox">
 						<input ng-click="command({{v}})" type="checkbox" value="{{v}}">
 					</label>
 					{{v.Name}} : {{v.Price}}€
+					<img src="venkman.jpg">
 				</li>
-
-
 			</ul>
 		</div>
 	</div>
 </div>
-
 </ion-content>
 </ion-view>
