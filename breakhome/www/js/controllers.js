@@ -34,35 +34,24 @@ angular.module('starter.controllers', [])
 })
 
 .controller('PlaylistsCtrl', function($scope, $http) {
-    // $scope.playlists = [{
-    //     title: 'Reggae',
-    //     id: 1
-    // }, {
-    //     title: 'Chill',
-    //     id: 2
-    // }, {
-    //     title: 'Dubstep',
-    //     id: 3
-    // }, {
-    //     title: 'Indie',
-    //     id: 4
-    // }, {
-    //     title: 'Rap',
-    //     id: 5
-    // }, {
-    //     title: 'Cowbell',
-    //     id: 6
-    // }];
+
     $http.get('js/products.json').success(function(data) {
 
         $scope.choices = [];
         angular.forEach(data, function(value, key) {
+
             $scope.choices.push(value);
             console.log(key);
             console.log(value);
+
         });
 
     });
+
+    $scope.command = function(data){
+        console.log(data);
+    }
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {});
