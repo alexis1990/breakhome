@@ -9,10 +9,12 @@
 			<ul class="list">
 				<li class="item item-checkbox">
 					<label class="checkbox">
-						<input ng-click="command({{v}})" type="checkbox" value="{{v}}">
+						<input ng-click="command({{v}})" ng-model="v.checked" type="checkbox">
 					</label>
-					{{v.Name}} : {{v.Price}}€
+					
+					{{v.name}} : {{v.price}}€
 					<img src="venkman.jpg">
+					
 				</li>
 			</ul>
 		</div>

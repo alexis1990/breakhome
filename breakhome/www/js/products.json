@@ -1,38 +1,44 @@
 [{
 	"vienoiserie":[
 	{
-		"Name": "Soap",
-		"Price": "25",
-		"Quantity": "10"
+		"name": "Soap",
+		"price": "25",
+		"quantity": "10",
+		"checked": false
 	}, 
 	{
-		"Name": "Bag",
-		"Price": "100",
-		"Quantity": "15"
+		"name": "Bag",
+		"price": "100",
+		"quantity": "15",
+		"checked": false
 	}, 
 	{
-		"Name": "Pen",
-		"Price": "15",
-		"Quantity": "13"
+		"name": "Pen",
+		"price": "15",
+		"quantity": "13",
+		"checked": false
 	}
 	]	
 },
 {
 	"boison":[
 	{
-		"Name": "Soap",
-		"Price": "25",
-		"Quantity": "10"
+		"name": "Soap",
+		"price": "25",
+		"quantity": "10",
+		"checked": false
 	}, 
 	{
-		"Name": "Bag",
-		"Price": "100",
-		"Quantity": "15"
+		"name": "Bag",
+		"price": "100",
+		"quantity": "15",
+		"checked": false
 	}, 
 	{
-		"Name": "Pen",
-		"Price": "15",
-		"Quantity": "13"
+		"name": "Pen",
+		"price": "15",
+		"quantity": "13",
+		"checked": false
 	}
 	]	
 }
