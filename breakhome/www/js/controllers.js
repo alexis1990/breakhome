@@ -33,33 +33,38 @@ angular.module('starter.controllers', [])
       };
     })
 
-.controller('PlaylistsCtrl', function($scope, $http) {
+.controller('PlaylistsCtrl', function($scope, $http, localStorageService) {
+
+  $scope.basket = [];
+  $scope.choices = [];
 
   $http.get('js/products.json').success(function(data) {
-
-    $scope.basket = [];
-    $scope.choices = [];
     angular.forEach(data, function(value, key) {
-
       $scope.choices.push(value);
-      console.log(key);
-      console.log(value);
-
     });
 
-  });
+    $scope.command = function(data){
+    // RECUPERER ICI LA DATA STOCKÉ DANS LE LOCAL STORAGE
+    if(localStorageService.isSupported) {
+      console.log('ok');
+    }
+    if(typeof $scope.basket[0] !== 'undefined'){
+      angular.forEach($scope.basket, function(value, key) {
+        console.log($scope.basket);
+        console.log(value);
 
-  $scope.command = function(data){
-    console.log(data);
-    $scope.basket.push(data);
-    angular.forEach($scope.basket, function(value, key) {
+      });
+    }else{
+      $scope.basket.push(data);
+      console.log('first');
+      console.log($scope.basket);
+    }
 
-      console.log(key);
-      console.log(value.checked);
-
-    });
-    console.log($scope.basket);
   }
+
+});
+
+
 
 })
 
