@@ -2,10 +2,8 @@
 
 // BASE SETUP
 // =============================================================================
-
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/BreakHome'); // connect to our database
-
 // call the packages we need
 var express = require('express'); // call express
 var app = express(); // define our app using express
@@ -39,8 +37,6 @@ router.get('/', function(req, res) {
     });
 });
 
-// more routes for our API will happen here
-
 // USERS
 // =============================================================================
 var passport = require('passport');
@@ -55,16 +51,16 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-var LoginSchema = require('./models/login.js');
-passport.use(LoginSchema.createStrategy());
+var Login = require('./models/login.js');
+passport.use(Login.createStrategy());
 
-passport.serializeUser(LoginSchema.serializeUser());
-passport.deserializeUser(LoginSchema.deserializeUser());
+passport.serializeUser(Login.serializeUser());
+passport.deserializeUser(Login.deserializeUser());
 
 router.post('/register', function(req, res, next) {
     console.log('registering user');
-    LoginSchema.register(new LoginSchema({
-        username: req.body.username,
+    Login.register(new Login({
+        username: req.body.username
     }), req.body.password, function(err) {
         if (err) {
             console.log('error while user register!', err);
@@ -77,19 +73,21 @@ router.post('/register', function(req, res, next) {
     });
 });
 
-// router.post('/login', passport.authenticate('local'), function(req, res) {
-//     res.redirect('/');
-// });
 
-// router.get('/login', function(req, res) {
-//     res.json(req.user);
-// });
+router.post('/login', passport.authenticate('local'), function(req, res) {
+    res.redirect('/');
+});
 
-// router.get('/logout', function(req, res) {
-//     req.logout();
-//     res.redirect('/');
-// });
+router.get('/login', function(req, res) {
+    res.json(req.user);
+});
 
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+// more routes for our API will happen here
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /api

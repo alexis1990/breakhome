@@ -51,7 +51,6 @@ angular.module('starter.controllers', [])
 })
 
 .controller('RegisterCtrl', function($scope, $http) {
-
     $scope.register = function() {
 
         $http.post('http://localhost:8080/api/register', {
@@ -64,6 +63,10 @@ angular.module('starter.controllers', [])
             })
             .error(function(data) {
                 console.log('Error: ' + data);
+            }, {
+                headers: {
+                    'Authorization': 'Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ=='
+                }
             });
     };
 })
