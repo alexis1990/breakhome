@@ -5,25 +5,20 @@
 		<h2>
 			{{key}}
 		</h2>
-		<form action="#">
-			<div ng-repeat="(k, v) in val">
-				<ul class="list">
-					<!-- <li class="item item-checkbox"> -->
-					<li class="item ">
-						<label class="checkbox">
-							<input ng-click="command({{v}})" type="checkbox">
-						</label>
-						<input type="number">
 
-						{{v.name}} : {{v.price}}€
-						<img src="venkman.jpg">
+		<div ng-repeat="(k, v) in val">
+			<ul class="list">
+				<!-- <li class="item item-checkbox"> -->
+				<li class="item" ng-model="ok">
+					<img src="venkman.jpg">
+					{{v.name}} : {{v.price}}€
+					<button>Acheter</button>
+				</li>
+			</ul>
+		</div>
 
-					</li>
-				</ul>
-			</div>
-			<input type="submit">
-		</form>
 	</div>
+	<br/>
 </div>
 </ion-content>
 </ion-view>

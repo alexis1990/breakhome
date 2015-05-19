@@ -1,19 +1,16 @@
 [{
 	"vienoiserie":[
 	{
-		"id": 1,
 		"name": "Soap",
 		"price": "25",
 		"quantity": "10"
 		}, 
 		{
-			"id": 2,
 			"name": "Bag",
 			"price": "100",
 			"quantity": "15"
 			}, 
 			{
-				"id": 3,
 				"name": "Pen",
 				"price": "15",
 				"quantity": "13"
@@ -23,19 +20,16 @@
 			{
 				"boison":[
 				{
-					"id": 4,
 					"name": "Soap",
 					"price": "25",
 					"quantity": "10"
 					}, 
 					{
-						"id": 5,
 						"name": "Bag",
 						"price": "100",
 						"quantity": "15"
 						}, 
 						{
-							"id": 6,
 							"name": "Pen",
 							"price": "15",
 							"quantity": "13"

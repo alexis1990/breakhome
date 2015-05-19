@@ -48,25 +48,25 @@ angular.module('starter.controllers', [])
             // if (localStorageService.isSupported) {
             //   console.log('ok');
             // }
-            if (typeof $scope.basket[0] !== 'undefined') {
-              angular.forEach($scope.basket, function(value, key) {
+            // if (typeof $scope.basket[0] !== 'undefined') {
+            //   angular.forEach($scope.basket, function(value, key) {
 
-                if($scope.basket[key] == data){
-                  console.log('exist');
-                  $scope.basket.push(data);
-                  
-                }else{
-                  console.log($scope.basket);
-                  console.log('do not exist');
+            //     if($scope.basket[key] == data){
+            //       console.log('exist');
+            //       $scope.basket.push(data);
+            
+            //     }else{
+            //       console.log($scope.basket);
+            //       console.log('do not exist');
 
-                }
+            //     }
 
-              });
-            } else {
-              $scope.basket.push(data);
-              // console.log('first');
-              // console.log($scope.basket);
-            }
+            //   });
+            // } else {
+            //   $scope.basket.push(data);
+            //   // console.log('first');
+            //   // console.log($scope.basket);
+            // }
 
           }
 
