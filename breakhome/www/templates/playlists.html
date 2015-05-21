@@ -11,7 +11,8 @@
 				<!-- <li class="item item-checkbox"> -->
 				<li class="item" ng-model="ok">
 					<img src="venkman.jpg">
-					{{v.name}} : {{v.price}}€
+					<a href="#/app/product/{{v.name}}" ng-click="displayProduct({{v}})" style="cursor: pointer; color: blue" >{{v.name}}</a> : {{v.price}}€
+
 					<button>Acheter</button>
 				</li>
 			</ul>

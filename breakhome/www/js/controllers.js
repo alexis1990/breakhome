@@ -1,6 +1,6 @@
-angular.module('starter.controllers', [])
+var app = angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+app.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
     // Form data for the login modal
     $scope.loginData = {};
 
@@ -33,48 +33,22 @@ angular.module('starter.controllers', [])
       };
     })
 
-.controller('PlaylistsCtrl', function($scope, $http, localStorageService) {
+app.controller('PlaylistsCtrl', function($scope, $http, productFactory) {
 
-  $scope.basket = [];
-  $scope.choices = [];
+  // Get datas Json
+  productFactory.getProducts().then(function(data){
+    $scope.choices = data.data;
 
-  $http.get('js/products.json').success(function(data) {
-    angular.forEach(data, function(value, key) {
-      $scope.choices.push(value);
-    });
+    $scope.displayProduct = function(v){
+      productFactory.productDisplay = v;
+    }
 
-    $scope.command = function(data) {
-            // RECUPERER ICI LA DATA STOCKÉ DANS LE LOCAL STORAGE
-            // if (localStorageService.isSupported) {
-            //   console.log('ok');
-            // }
-            // if (typeof $scope.basket[0] !== 'undefined') {
-            //   angular.forEach($scope.basket, function(value, key) {
+  });
 
-            //     if($scope.basket[key] == data){
-            //       console.log('exist');
-            //       $scope.basket.push(data);
-            
-            //     }else{
-            //       console.log($scope.basket);
-            //       console.log('do not exist');
-
-            //     }
-
-            //   });
-            // } else {
-            //   $scope.basket.push(data);
-            //   // console.log('first');
-            //   // console.log($scope.basket);
-            // }
-
-          }
-
-        });
 
 })
 
-.controller('RegisterCtrl', function($scope, $http) {
+app.controller('RegisterCtrl', function($scope, $http) {
   $scope.register = function() {
 
     $http.post('http://localhost:8080/api/register', {
@@ -95,4 +69,14 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {});
+
+app.controller('ProductCtrl', function($scope, $http, productFactory) {
+  $scope.product = productFactory.productDisplay;
+});
+
+
+
+
+
+
+
