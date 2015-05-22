@@ -1,4 +1,4 @@
-app.factory('productFactory', function($http) {
+app.factory('productFactory', function($http, $localstorage) {
 	var serverURL = "http://10.35.1.27:3000";
 
 	return {
@@ -15,8 +15,18 @@ app.factory('productFactory', function($http) {
 			})
 		},
 
+		// getProductDisplay: function(){
+		// 	var post = $localstorage.getObject('productToDisplay');
+ 	// 		if(this.productDisplay == null){
+ 	// 			return post;
+ 	// 		} else{
+ 	// 			return this.productDisplay;
+ 	// 		}
+		// },
+
 		addProduct: function() {
 			// this.getProducts();
 		}
 	}
 })
+

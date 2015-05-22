@@ -4,35 +4,34 @@
 		"name": "Soap",
 		"price": "25",
 		"quantity": "10"
-		}, 
-		{
-			"name": "Bag",
-			"price": "100",
-			"quantity": "15"
-			}, 
-			{
-				"name": "Pen",
-				"price": "15",
-				"quantity": "13"
-			}
-			]	
-			},
-			{
-				"boison":[
-				{
-					"name": "Soap",
-					"price": "25",
-					"quantity": "10"
-					}, 
-					{
-						"name": "Bag",
-						"price": "100",
-						"quantity": "15"
-						}, 
-						{
-							"name": "Pen",
-							"price": "15",
-							"quantity": "13"
-						}
-						]	
-						}]
+	}, 
+	{
+		"name": "Bag",
+		"price": "100",
+		"quantity": "15"
+	}, 
+	{
+		"name": "Pen",
+		"price": "15",
+		"quantity": "13"
+	}
+	]},
+	{
+	"boison":[
+	{
+		"name": "Soap",
+		"price": "25",
+		"quantity": "10"
+	}, 
+	{
+		"name": "Bag",
+		"price": "100",
+		"quantity": "15"
+	}, 
+	{
+		"name": "Pen",
+		"price": "15",
+		"quantity": "13"
+	}
+	]	
+}]

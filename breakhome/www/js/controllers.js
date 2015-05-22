@@ -1,6 +1,6 @@
 var app = angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http) {
+app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http) {
 
     // Form data for the login modal
     $scope.loginData = {};
@@ -37,52 +37,24 @@ var app = angular.module('starter.controllers', [])
     $scope.logout = function() {
         $http.get('http://localhost:8100/logout');
     };
-})
+});
 
 app.controller('PlaylistsCtrl', function($scope, $http, productFactory) {
 
-    // Get datas Json
-    productFactory.getProducts().then(function(data) {
-        $scope.choices = data.data;
+  // Get datas Json
+  productFactory.getProducts().then(function(data){
+    $scope.choices = data.data;
 
-        $scope.displayProduct = function(v) {
-            productFactory.productDisplay = v;
-        }
+    $scope.displayProduct = function(v){
+      productFactory.productDisplay = v;
+    }
 
-    });
-    $scope.basket = [];
-    $scope.choices = [];
-
-    $http.get('js/products.json').success(function(data) {
-        angular.forEach(data, function(value, key) {
-            $scope.choices.push(value);
-        });
-
-        $scope.command = function(data) {
-            // RECUPERER ICI LA DATA STOCKÉ DANS LE LOCAL STORAGE
-            if (localStorageService.isSupported) {
-                console.log('ok');
-            }
-            if (typeof $scope.basket[0] !== 'undefined') {
-                angular.forEach($scope.basket, function(value, key) {
-                    console.log($scope.basket);
-                    console.log(value);
-
-                });
-            } else {
-                $scope.basket.push(data);
-                console.log('first');
-                console.log($scope.basket);
-            }
-
-        }
-
-    });
+  });
 
 
 })
 
-.controller('RegisterCtrl', function($scope, $http) {
+app.controller('RegisterCtrl', function($scope, $http) {
     $scope.register = function() {
         var username = $scope.username;
         var password = $scope.password;
@@ -92,7 +64,7 @@ app.controller('PlaylistsCtrl', function($scope, $http, productFactory) {
             password: password
         }).
         success(function(data, status, headers, config) {
-            console.log(data);
+
         }).
         error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
@@ -103,6 +75,42 @@ app.controller('PlaylistsCtrl', function($scope, $http, productFactory) {
 })
 
 
-app.controller('ProductCtrl', function($scope, $http, productFactory) {
-    $scope.product = productFactory.productDisplay;
+app.controller('ProductCtrl', function($scope, $http, productFactory, $localstorage) {
+  var factoryCheck = productFactory.productDisplay;
+    $scope.product = factoryCheck;
+  
+  // Set product show page into local storage
+  // If local storage is supported
+  if($localstorage) {
+    $scope.$watch(function() {
+        return productFactory.productDisplay;
+    }, function(newValue, oldValue) {
+      console.log(newValue);
+      // If object change
+        if (newValue) {
+          // Set values
+            $localstorage.setObject('productToDisplay', {
+              name: newValue.name,
+              price: newValue.price
+            });
+
+        }
+    }, true);
+  }
+
+  var factoryCheck = productFactory.productDisplay;
+  // If product to display array is empty
+  if(Array.isArray(factoryCheck)){
+    $scope.product = $localstorage.getObject('productToDisplay');
+  } else{
+    $scope.product = factoryCheck;
+  }
+
 });
+
+
+
+
+
+
+
