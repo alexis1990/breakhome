@@ -1,99 +1,58 @@
-// server.js
-
-// BASE SETUP
-// =============================================================================
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/BreakHome'); // connect to our database
-// call the packages we need
-var express = require('express'); // call express
-var app = express(); // define our app using express
-var bodyParser = require('body-parser');
+var express = require('express');
+var path = require('path');
+var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
 
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+var dbConfig = require('./db');
+var mongoose = require('mongoose');
+// Connect to DB
+mongoose.connect(dbConfig.url);
+
+var app = express();
+
+app.use(logger('dev'));
 app.use(bodyParser.json());
-
-var port = process.env.PORT || 8080; // set our port
-
-// ROUTES FOR OUR API
-// =============================================================================
-var router = express.Router(); // get an instance of the express Router
-
-// middleware to use for all requests
-router.use(function(req, res, next) {
-    // do logging
-    console.log('Something is happening.');
-    next(); // make sure we go to the next routes and don't stop here
-});
-
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({
-        message: 'hooray! welcome to our api!'
-    });
-});
-
-// USERS
-// =============================================================================
-var passport = require('passport');
-var session = require('express-session');
-var LocalStrategy = require('passport-local').Strategy;
+app.use(bodyParser.urlencoded());
 app.use(cookieParser());
-app.use(session({
-    secret: 'mySecretKey',
-    resave: true,
-    saveUnitialized: false
+
+var port = process.env.PORT || 8100;
+
+// Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+// TODO - Why Do we need this key ?
+app.use(expressSession({
+    secret: 'mySecretKey'
 }));
 app.use(passport.initialize());
 app.use(passport.session());
 
-var Login = require('./models/login.js');
-passport.use(Login.createStrategy());
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
-passport.serializeUser(Login.serializeUser());
-passport.deserializeUser(Login.deserializeUser());
+// Using the flash middleware provided by connect-flash to store messages in session
+// and displaying in templates
+var flash = require('connect-flash');
+app.use(flash());
 
-router.post('/register', function(req, res, next) {
-    console.log('registering user');
-    Login.register(new Login({
-        username: req.body.username
-    }), req.body.password, function(err) {
-        if (err) {
-            console.log('error while user register!', err);
-            return next(err);
-        }
+// Initialize Passport
+var initPassport = require('./server/passport/init');
+initPassport(passport);
 
-        console.log('user registered!');
+var routes = require('./server/routes/index')(passport);
+app.use('/', routes);
 
-        res.redirect('/');
-    });
+/// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 
-router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
-});
-
-router.get('/login', function(req, res) {
-    res.json(req.user);
-});
-
-router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-
-// more routes for our API will happen here
-
-// REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
-
-// START THE SERVER
-// =============================================================================
+module.exports = app;
 app.listen(port);
-console.log('Magic happens on port ' + port);

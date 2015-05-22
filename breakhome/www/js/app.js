@@ -10,17 +10,46 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngRoute'])
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
-    if (window.cordova && window.cordova.plugins.Keyboard) {
-        cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
-    }
-    if (window.StatusBar) {
+        if (window.cordova && window.cordova.plugins.Keyboard) {
+            cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+        }
+        if (window.StatusBar) {
             // org.apache.cordova.statusbar required
             StatusBar.styleDefault();
         }
     });
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
+
+    //================================================
+    // Check if the user is connected
+    //================================================
+    var checkLoggedin = function($q, $timeout, $http, $location, $rootScope) {
+        // Initialize a new promise
+        var deferred = $q.defer();
+
+        // Make an AJAX call to check if the user is logged in
+        $http.get('http://localhost:8100/loggedin').success(function(user) {
+            // Authenticated
+            if (user !== '0')
+                $timeout(deferred.resolve, 0);
+
+            // Not Authenticated
+            else {
+                $rootScope.message = 'You need to log in.';
+                $timeout(function() {
+                    deferred.reject();
+                }, 0);
+                $location.url('/login');
+            }
+        });
+
+        return deferred.promise;
+    };
+
+    //================================================
+
     $stateProvider
 
     .state('app', {
@@ -47,6 +76,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngRoute'])
             }
         }
     })
+
     .state('app.playlists', {
         url: "/playlists",
         views: {
@@ -54,8 +84,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngRoute'])
                 templateUrl: "templates/playlists.html",
                 controller: 'PlaylistsCtrl'
             }
+        },
+        resolve: {
+            loggedin: checkLoggedin
         }
+
     })
+
     .state('app.single', {
         url: "/playlists/:playlistId",
         views: {
@@ -65,6 +100,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngRoute'])
             }
         }
     })
+
     .state('app.product', {
         url: "/product/:productName",
         views: {
@@ -75,6 +111,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngRoute'])
         }
     });
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/playlists');
+    $urlRouterProvider.otherwise('/app/search');
 
 });
