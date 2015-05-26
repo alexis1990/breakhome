@@ -1,15 +1,11 @@
-<<<<<<< HEAD
 app.factory('productFactory', function($http) {
-=======
-app.factory('productFactory', function($http, $localstorage) {
-	var serverURL = "http://10.35.1.27:3000";
->>>>>>> origin/master
+
 
     return {
         products: [],
         productDisplay: [],
 
-<<<<<<< HEAD
+
         getSyna: function() {
             var self = this;
             return $http({
@@ -20,31 +16,5 @@ app.factory('productFactory', function($http, $localstorage) {
             })
         }
     }
+
 })
-=======
-		getProducts: function() {
-			var self = this;
-			return $http({
-				url: "js/products.json",
-				method: 'GET'
-			}).success(function(data) {
-				self.products = data;
-			})
-		},
-
-		// getProductDisplay: function(){
-		// 	var post = $localstorage.getObject('productToDisplay');
- 	// 		if(this.productDisplay == null){
- 	// 			return post;
- 	// 		} else{
- 	// 			return this.productDisplay;
- 	// 		}
-		// },
-
-		addProduct: function() {
-			// this.getProducts();
-		}
-	}
-})
-
->>>>>>> origin/master
