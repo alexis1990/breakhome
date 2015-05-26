@@ -1,0 +1,10 @@
+<ion-view view-title="Playlists">
+<ion-content>
+<div ng-controller="PlaylistsCtrl">
+	<div id="map"></div>
+	<div id="class" ng-repeat="marker in markers | orderBy : 'title'">
+		<a href="#">{{marker.title}}</a>
+	</div>
+</div>
+</ion-content>
+</ion-view>
