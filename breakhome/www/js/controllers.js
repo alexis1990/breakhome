@@ -1,6 +1,6 @@
 var app = angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http) {
+app.controller('AppCtrl', function($scope, $ionicModal, $timeout, $http) {
 
     // Form data for the login modal
     $scope.loginData = {};
@@ -37,7 +37,7 @@ var app = angular.module('starter.controllers', [])
     $scope.logout = function() {
         $http.get('http://localhost:8100/logout');
     };
-})
+});
 
 app.controller('PlaylistsCtrl', function($scope, $http, productFactory, $ionicModal) {
 
@@ -123,10 +123,9 @@ app.controller('PlaylistsCtrl', function($scope, $http, productFactory, $ionicMo
 
     });
 
-
 })
 
-.controller('RegisterCtrl', function($scope, $http) {
+app.controller('RegisterCtrl', function($scope, $http) {
     $scope.register = function() {
         var username = $scope.username;
         var password = $scope.password;
@@ -136,7 +135,7 @@ app.controller('PlaylistsCtrl', function($scope, $http, productFactory, $ionicMo
             password: password
         }).
         success(function(data, status, headers, config) {
-            console.log(data);
+
         }).
         error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
@@ -147,6 +146,35 @@ app.controller('PlaylistsCtrl', function($scope, $http, productFactory, $ionicMo
 })
 
 
-app.controller('ProductCtrl', function($scope, $http, productFactory) {
-    $scope.product = productFactory.productDisplay;
+app.controller('ProductCtrl', function($scope, $http, productFactory, $localstorage) {
+    var factoryCheck = productFactory.productDisplay;
+    $scope.product = factoryCheck;
+
+    // Set product show page into local storage
+    // If local storage is supported
+    if ($localstorage) {
+        $scope.$watch(function() {
+            return productFactory.productDisplay;
+        }, function(newValue, oldValue) {
+            console.log(newValue);
+            // If object change
+            if (newValue) {
+                // Set values
+                $localstorage.setObject('productToDisplay', {
+                    name: newValue.name,
+                    price: newValue.price
+                });
+
+            }
+        }, true);
+    }
+
+    var factoryCheck = productFactory.productDisplay;
+    // If product to display array is empty
+    if (Array.isArray(factoryCheck)) {
+        $scope.product = $localstorage.getObject('productToDisplay');
+    } else {
+        $scope.product = factoryCheck;
+    }
+
 });
