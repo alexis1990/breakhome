@@ -1,0 +1,12 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">Login</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeModalSyna()">Close</button>
+    </div>
+  </ion-header-bar>
+  <ion-content ng-repeat="marker in markers | orderBy : 'title'">
+  	<h1>{{this.title}}</h1>
+  	<p>{{marker.adress}}</p>
+  </ion-content>
+</ion-modal-view>

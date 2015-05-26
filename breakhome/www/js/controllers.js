@@ -39,42 +39,86 @@ var app = angular.module('starter.controllers', [])
     };
 })
 
-app.controller('PlaylistsCtrl', function($scope, $http, productFactory) {
+app.controller('PlaylistsCtrl', function($scope, $http, productFactory, $ionicModal) {
 
-    // Get datas Json
-    productFactory.getProducts().then(function(data) {
-        $scope.choices = data.data;
+    var paris = new google.maps.LatLng(48.8534100, 2.3488000);
 
-        $scope.displayProduct = function(v) {
-            productFactory.productDisplay = v;
-        }
+    var mapOptions = {
+        zoom: 12,
+        center: paris,
+        mapTypeId: google.maps.MapTypeId.TERRAIN
+    }
 
-    });
-    $scope.basket = [];
-    $scope.choices = [];
+    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-    $http.get('js/products.json').success(function(data) {
-        angular.forEach(data, function(value, key) {
-            $scope.choices.push(value);
+    $scope.markers = [];
+
+    var infoWindow = new google.maps.InfoWindow();
+
+    // Try HTML5 geolocation
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var pos = new google.maps.LatLng(position.coords.latitude,
+                position.coords.longitude);
+
+            var infowindow = new google.maps.Marker({
+                setMap: $scope.map,
+                position: pos,
+                content: 'Location found using HTML5.'
+            });
+
+            $scope.map.setCenter(pos);
+
+
+        }, function() {
+            handleNoGeolocation(true);
         });
+    } else {
+        // Browser doesn't support Geolocation
+        handleNoGeolocation(false);
+    }
 
-        $scope.command = function(data) {
-            // RECUPERER ICI LA DATA STOCKÉ DANS LE LOCAL STORAGE
-            if (localStorageService.isSupported) {
-                console.log('ok');
-            }
-            if (typeof $scope.basket[0] !== 'undefined') {
-                angular.forEach($scope.basket, function(value, key) {
-                    console.log($scope.basket);
-                    console.log(value);
 
-                });
-            } else {
-                $scope.basket.push(data);
-                console.log('first');
-                console.log($scope.basket);
-            }
+    var createMarker = function(info) {
+        console.log(info);
+        var marker = new google.maps.Marker({
+            map: $scope.map,
+            position: new google.maps.LatLng(info.location.lat, info.location.lng),
+            title: info.name,
+            adress: info.location.address
+        });
+        marker.content = '<div class="infoWindowContent">' + info.name + '</div>';
 
+        google.maps.event.addListener(marker, 'click', function() {
+            // infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.adress);
+            // infoWindow.open($scope.map, marker);
+            console.log(this.title);
+            $scope.syna.show();
+        });
+        $scope.markers.push(marker);
+
+    }
+
+    // Create the login modal that we will use later
+    $ionicModal.fromTemplateUrl('templates/paymentmodal.html', {
+        scope: $scope
+    }).then(function(modal) {
+        $scope.syna = modal;
+    });
+
+    $scope.closeModalSyna = function() {
+        $scope.syna.hide();
+    };
+
+
+    // $scope.openInfoWindow = function(e, selectedMarker) {
+    //     e.preventDefault();
+    //     google.maps.event.trigger(selectedMarker, 'click');
+    // }
+    // Get Synagogues Foursquare
+    productFactory.getSyna().then(function(data) {
+        for (var i = 0; i < data.data.response.venues.length; i++) {
+            createMarker(data.data.response.venues[i]);
         }
 
     });

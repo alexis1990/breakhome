@@ -99,16 +99,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngRoute'])
                 controller: 'PlaylistCtrl'
             }
         }
-    })
-
-    .state('app.product', {
-        url: "/product/:productName",
-        views: {
-            'menuContent': {
-                templateUrl: "templates/product.html",
-                controller: 'ProductCtrl'
-            }
-        }
     });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/app/search');
